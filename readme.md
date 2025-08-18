@@ -2,6 +2,15 @@
 
 Server-side Fabric mod that applies a resource pack to players based on scoreboard values. Dynamic JSON config supports many objective/value -> pack mappings.
 
+## Prerequisites
+
+**Network Requirements:**
+- This project requires network access to `maven.fabricmc.net` to download the Fabric Loom plugin and dependencies
+- Ensure your build environment can access:
+  - `https://maven.fabricmc.net/` (Fabric Maven repository)
+  - `https://repo.maven.apache.org/maven2/` (Maven Central)
+  - `https://plugins.gradle.org/` (Gradle Plugin Portal)
+
 ## Info
 Depending on a player's scoreboard value, the server sends a specific resource pack; when the scoreboard changes, it can send a different pack.
 
@@ -27,6 +36,7 @@ Depending on a player's scoreboard value, the server sends a specific resource p
 ## Build
 - Requires JDK 21.
 - Uses Gradle (Fabric Loom). Mappings: official Mojang for 1.21.1.
+- **Important:** Requires network access to `maven.fabricmc.net`
 - Build:
 
 ```sh
@@ -34,6 +44,19 @@ Depending on a player's scoreboard value, the server sends a specific resource p
 ```
 
 Jar: `build/libs/scorepack-*.jar`.
+
+## Troubleshooting
+
+**Build Issues:**
+- If you get `fabric-loom` plugin not found errors, ensure network access to `maven.fabricmc.net`
+- Verify DNS resolution: `nslookup maven.fabricmc.net`
+- Check firewall/proxy settings that might block Maven repositories
+
+**Network-Restricted Environments:**
+- In environments where `maven.fabricmc.net` is blocked, consider:
+  - Using a corporate Maven mirror that includes Fabric repositories
+  - Setting up a local Maven proxy/mirror
+  - Building in a different environment with network access
 
 ## Install
 - Use on a Fabric server for MC 1.21.1 and Fabric Loader 0.16.5+.

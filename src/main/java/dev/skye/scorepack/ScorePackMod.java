@@ -16,10 +16,8 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.MessageDigest;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -102,6 +100,8 @@ public class ScorePackMod implements ModInitializer {
 
         var scoreboard = server.getScoreboard();
         for (Config.Rule rule : config.rules) {
+            // Skip rules with null equalsValue to avoid confusion
+            if (rule.equalsValue == null) continue; 
             var objective = scoreboard.getNullableObjective(rule.objective);
             if (objective == null) continue;
             var score = scoreboard.getPlayerScore(player, objective);
@@ -127,6 +127,10 @@ public class ScorePackMod implements ModInitializer {
 
         // Send resource pack to player
         try {
+            if (matchedRule.packUrl == null || matchedRule.packUrl.isBlank()) {
+                // Skip rules with invalid pack URLs
+                return;
+            }
             String sha1 = normalizeSha1(matchedRule.sha1);
             Text prompt = matchedRule.prompt == null || matchedRule.prompt.isBlank() ? null : Text.literal(matchedRule.prompt);
             // Signature for 1.20+ style: (String url, @Nullable String hash, boolean required, @Nullable Text prompt)
