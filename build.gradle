@@ -1,0 +1,58 @@
+plugins {
+    id 'fabric-loom' version '1.6-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = '0.1.0'
+group = 'dev.skye.scorepack'
+
+base {
+    archivesName = 'scorepack'
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.fabricmc.net/' }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+dependencies {
+    // Minecraft + mappings for 1.21.1 (update to 1.21.8 when released/available)
+    minecraft "com.mojang:minecraft:1.21.1"
+    mappings loom.layered() {
+        mappings("net.fabricmc:yarn:1.21.1+build.3:v2")
+    }
+    modImplementation "net.fabricmc:fabric-loader:0.16.5"
+    // Fabric API for events and connection hooks
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.103.0+1.21.1"
+}
+
+processResources {
+    inputs.property "version", version
+    filesMatching("fabric.mod.json") {
+        expand "version": version
+    }
+    // Exclude Forge metadata from Fabric jar
+    exclude "META-INF/mods.toml"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 21
+}
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
