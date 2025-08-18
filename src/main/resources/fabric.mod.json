@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "scorepack",
+  "version": "${version}",
+  "name": "ScorePack",
+  "description": "Server-side resource pack switching based on scoreboard values.",
+  "authors": ["NobleSkye"],
+  "contact": {
+    "sources": "https://example.com/scorepack"
+  },
+  "license": "MIT",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "dev.skye.scorepack.ScorePackMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.5",
+    "minecraft": "~1.21.1"
+  }
+}
