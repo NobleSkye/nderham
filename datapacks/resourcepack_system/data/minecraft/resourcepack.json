@@ -1,0 +1,19 @@
+{
+  "scoreboard_objective": "level",
+  "resourcepacks": {
+    "starter_pack": {
+      "value": 1,
+      "url": "https://example.com/resourcepack1.zip",
+      "sha256": "optional-hash-here"
+    },
+    "advanced_pack": {
+      "value": 5,
+      "url": "https://example.com/resourcepack2.zip",
+      "sha256": "abc123..."
+    },
+    "pro_pack": {
+      "value": 10,
+      "url": "https://example.com/resourcepack3.zip"
+    }
+  }
+}

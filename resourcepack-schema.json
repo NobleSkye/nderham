@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nobleskye.dev/schemas/minecraft/resourcepack.json",
+  "title": "Minecraft Resource Pack Configuration",
+  "description": "Schema for defining resource pack assignments based on scoreboard values",
+  "type": "object",
+  "required": ["scoreboard_objective", "resourcepacks"],
+  "properties": {
+    "scoreboard_objective": {
+      "type": "string",
+      "description": "The name of the scoreboard objective to monitor for resource pack assignment",
+      "examples": ["level", "rank", "playtime", "achievements"],
+      "minLength": 1,
+      "maxLength": 16,
+      "pattern": "^[a-zA-Z0-9_.-]+$"
+    },
+    "resourcepacks": {
+      "type": "object",
+      "description": "Collection of resource pack definitions",
+      "minProperties": 1,
+      "patternProperties": {
+        "^[a-z0-9_]+$": {
+          "type": "object",
+          "description": "Individual resource pack configuration",
+          "required": ["value", "url"],
+          "properties": {
+            "value": {
+              "type": "integer",
+              "description": "The scoreboard value that triggers this resource pack",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "examples": [1, 5, 10, 100]
+            },
+            "url": {
+              "type": "string",
+              "description": "Direct download URL for the resource pack (must be HTTPS)",
+              "format": "uri",
+              "pattern": "^https://",
+              "examples": [
+                "https://example.com/resourcepack.zip",
+                "https://cdn.myserver.com/packs/custom.zip"
+              ]
+            },
+            "sha256": {
+              "type": "string",
+              "description": "Optional SHA-256 hash for resource pack verification",
+              "pattern": "^[a-f0-9]{64}$",
+              "examples": [
+                "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "scoreboard_objective": "level",
+      "resourcepacks": {
+        "starter_pack": {
+          "value": 1,
+          "url": "https://example.com/resourcepack1.zip",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "advanced_pack": {
+          "value": 5,
+          "url": "https://example.com/resourcepack2.zip",
+          "sha256": "abc123def456..."
+        },
+        "pro_pack": {
+          "value": 10,
+          "url": "https://example.com/resourcepack3.zip"
+        }
+      }
+    },
+    {
+      "scoreboard_objective": "rank",
+      "resourcepacks": {
+        "member": {
+          "value": 0,
+          "url": "https://cdn.myserver.com/member.zip"
+        },
+        "vip": {
+          "value": 1,
+          "url": "https://cdn.myserver.com/vip.zip",
+          "sha256": "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+        },
+        "admin": {
+          "value": 2,
+          "url": "https://cdn.myserver.com/admin.zip",
+          "sha256": "fedcba0987654321fedcba0987654321fedcba0987654321fedcba0987654321"
+        }
+      }
+    }
+  ]
+}

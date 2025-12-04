@@ -1,0 +1,19 @@
+{
+  "scoreboard_objective": "player_rank",
+  "resourcepacks": {
+    "member_pack": {
+      "value": 1,
+      "url": "https://cdn.example.com/packs/member.zip",
+      "sha256": "1a2b3c4d5e6f7890abcdef1234567890abcdef1234567890abcdef1234567890"
+    },
+    "vip_pack": {
+      "value": 5,
+      "url": "https://cdn.example.com/packs/vip.zip",
+      "sha256": "fedcba0987654321fedcba0987654321fedcba0987654321fedcba0987654321"
+    },
+    "admin_pack": {
+      "value": 10,
+      "url": "https://cdn.example.com/packs/admin.zip"
+    }
+  }
+}
