@@ -15,6 +15,8 @@ import java.util.logging.Level;
  * Manages loading and accessing configuration files for scoreboard objectives.
  */
 public class ConfigManager {
+    private static final String MAIN_CONFIG_FILE = "config.yml";
+    
     private final ScorePackPlugin plugin;
     private final File configDir;
     private final Map<String, ScoreboardConfig> scoreboardConfigs;
@@ -45,8 +47,8 @@ public class ConfigManager {
         // Clear existing configurations
         scoreboardConfigs.clear();
         
-        // Load all YAML files from the directory
-        File[] files = configDir.listFiles((dir, name) -> name.endsWith(".yml") && !name.equals("config.yml"));
+        // Load all YAML files from the directory (excluding main config)
+        File[] files = configDir.listFiles((dir, name) -> name.endsWith(".yml") && !name.equals(MAIN_CONFIG_FILE));
         
         if (files == null || files.length == 0) {
             plugin.getLogger().warning("No scoreboard configuration files found in " + configDir.getPath());

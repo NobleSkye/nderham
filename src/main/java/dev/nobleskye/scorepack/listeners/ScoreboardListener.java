@@ -53,6 +53,8 @@ public class ScoreboardListener implements Listener {
     /**
      * Starts a periodic task to check for score changes.
      * This is necessary because Bukkit doesn't have a direct scoreboard change event.
+     * Note: The handler tracks applied packs to prevent redundant applications,
+     * minimizing the performance impact of periodic checking.
      */
     private void startPeriodicCheck() {
         // Check every 5 seconds (100 ticks)
@@ -108,6 +110,7 @@ public class ScoreboardListener implements Listener {
             }
             
             // Get the player's score
+            // Note: Bukkit Scoreboard API uses player names as entry identifiers
             Score score = objective.getScore(player.getName());
             if (!score.isScoreSet()) {
                 return;

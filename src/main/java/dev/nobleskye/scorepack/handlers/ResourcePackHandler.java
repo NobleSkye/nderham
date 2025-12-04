@@ -38,7 +38,7 @@ public class ResourcePackHandler {
         Map<String, Integer> playerPacks = appliedPacks.computeIfAbsent(playerUUID, k -> new HashMap<>());
         Integer lastApplied = playerPacks.get(objectiveName);
         
-        if (lastApplied != null && lastApplied == scoreValue) {
+        if (lastApplied != null && lastApplied.equals(scoreValue)) {
             // Already applied this pack for this score
             return;
         }
