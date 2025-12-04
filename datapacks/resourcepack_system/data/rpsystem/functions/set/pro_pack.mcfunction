@@ -3,6 +3,7 @@
 
 # Apply the resource pack to the executing player
 # Note: Replace the URL with your actual resource pack URL
+# SHA-256 hash is optional but can be added for security
 resource pack send @s "https://example.com/resourcepack3.zip"
 
 # Mark this pack as applied

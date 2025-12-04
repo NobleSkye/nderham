@@ -11,6 +11,9 @@ execute as @a[scores={level=5}] unless score @s rp_applied matches 5 run functio
 execute as @a[scores={level=10}] unless score @s rp_applied matches 10 run function rpsystem:set/pro_pack
 
 # Reset applied pack ID if level changes to a value without a matching pack
-execute as @a[scores={level=2..4}] unless score @s rp_applied matches 0 run scoreboard players set @s rp_applied 0
-execute as @a[scores={level=6..9}] unless score @s rp_applied matches 0 run scoreboard players set @s rp_applied 0
-execute as @a[scores={level=11..}] unless score @s rp_applied matches 0 run scoreboard players set @s rp_applied 0
+# Only reset if they have starter_pack but level changed
+execute as @a[scores={level=2..4}] if score @s rp_applied matches 1 run scoreboard players set @s rp_applied 0
+# Only reset if they have advanced_pack but level changed
+execute as @a[scores={level=6..9}] if score @s rp_applied matches 5 run scoreboard players set @s rp_applied 0
+# Only reset if they have pro_pack but level changed
+execute as @a[scores={level=11..}] if score @s rp_applied matches 10 run scoreboard players set @s rp_applied 0
