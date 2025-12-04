@@ -1,0 +1,30 @@
+# ScorePack Main Configuration
+# 
+# This is the main configuration file for ScorePack.
+# To configure scoreboard-based resource packs, create separate YAML files
+# named after your scoreboard objectives (e.g., level.yml, rank.yml, coins.yml)
+#
+# For detailed documentation, see README.md
+
+# Plugin settings
+plugin:
+  name: "ScorePack"
+  version: "1.0.0"
+  
+# Configuration information
+config:
+  # Each YAML file in the plugin directory (except config.yml) represents
+  # a scoreboard objective configuration
+  # 
+  # Example files:
+  # - level.yml     -> monitors "level" scoreboard objective
+  # - rank.yml      -> monitors "rank" scoreboard objective  
+  # - coins.yml     -> monitors "coins" scoreboard objective
+  #
+  # See the example files (level.yml, rank.yml) for the proper structure
+  
+# Notes:
+# - Resource packs are applied when a player's score matches a configured value
+# - SHA-256 hashes are optional but recommended for security
+# - Use /scorepack reload to reload configurations without restarting the server
+# - Use /scorepack info to see loaded objectives

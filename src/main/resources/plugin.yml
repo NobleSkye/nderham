@@ -1,0 +1,19 @@
+name: ScorePack
+version: '${version}'
+main: dev.nobleskye.scorepack.ScorePackPlugin
+api-version: '1.20'
+author: NobleSkye
+description: Dynamically assigns resource packs to players based on scoreboard values
+website: https://nobleskye.dev
+
+commands:
+  scorepack:
+    description: ScorePack plugin commands
+    usage: /<command> [reload]
+    permission: scorepack.admin
+    aliases: [sp]
+
+permissions:
+  scorepack.admin:
+    description: Allows access to all ScorePack commands
+    default: op

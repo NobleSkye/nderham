@@ -1,0 +1,24 @@
+# ScorePack Configuration - Rank-based Resource Packs
+# This file is named after the scoreboard objective it monitors
+# File name: rank.yml = Scoreboard objective: "rank"
+
+scoreboard_objective: "rank"  # The scoreboard objective to monitor
+
+resource_packs:
+  # When a player's "rank" score equals 1 (e.g., Member rank)
+  - value: 1
+    url: "https://example.com/resourcepacks/member.zip"
+    
+  # When a player's "rank" score equals 2 (e.g., VIP rank)
+  - value: 2
+    url: "https://example.com/resourcepacks/vip.zip"
+    sha256: "0123456789abcdef..."
+    
+  # When a player's "rank" score equals 3 (e.g., MVP rank)
+  - value: 3
+    url: "https://example.com/resourcepacks/mvp.zip"
+    
+  # When a player's "rank" score equals 4 (e.g., Admin rank)
+  - value: 4
+    url: "https://example.com/resourcepacks/admin.zip"
+    sha256: "fedcba9876543210..."
