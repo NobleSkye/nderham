@@ -101,7 +101,14 @@ public class ScoreboardListener implements Listener {
             Objective objective = scoreboard.getObjective(objectiveName);
             if (objective == null) {
                 // Try main scoreboard
-                scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+                org.bukkit.scoreboard.ScoreboardManager manager = Bukkit.getScoreboardManager();
+                if (manager == null) {
+                    return;
+                }
+                scoreboard = manager.getMainScoreboard();
+                if (scoreboard == null) {
+                    return;
+                }
                 objective = scoreboard.getObjective(objectiveName);
                 
                 if (objective == null) {
