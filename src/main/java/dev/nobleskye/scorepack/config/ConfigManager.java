@@ -92,7 +92,13 @@ public class ConfigManager {
         
         for (Map<?, ?> packMap : resourcePacksList) {
             try {
-                int value = ((Number) packMap.get("value")).intValue();
+                Object valueObj = packMap.get("value");
+                if (valueObj == null) {
+                    plugin.getLogger().warning("Resource pack in " + file.getName() + " is missing 'value' field");
+                    continue;
+                }
+                
+                int value = ((Number) valueObj).intValue();
                 String url = (String) packMap.get("url");
                 String sha256 = (String) packMap.get("sha256"); // Can be null
                 
