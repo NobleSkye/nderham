@@ -4,7 +4,7 @@
 # Apply the resource pack to the executing player
 # Note: Replace the URL with your actual resource pack URL
 # SHA-256 hash is optional but recommended for security
-resource pack send @s "https://example.com/resourcepack2.zip" "abc123..."
+resource pack send @s "https://example.com/resourcepack2.zip" "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
 
 # Mark this pack as applied
 scoreboard players set @s rp_applied 5
