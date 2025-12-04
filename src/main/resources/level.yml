@@ -1,0 +1,30 @@
+# ScorePack Configuration - Level-based Resource Packs
+# This file is named after the scoreboard objective it monitors
+# File name: level.yml = Scoreboard objective: "level"
+
+scoreboard_objective: "level"  # The scoreboard objective to monitor
+
+resource_packs:
+  # When a player's "level" score equals 1, apply this resource pack
+  - value: 1
+    url: "https://example.com/resourcepacks/starter.zip"
+    sha256: ""  # Optional: Leave empty or remove if not using SHA-256 verification
+    
+  # When a player's "level" score equals 5, apply this resource pack
+  - value: 5
+    url: "https://example.com/resourcepacks/intermediate.zip"
+    sha256: "abc123def456..."  # Optional: SHA-256 hash for verification
+    
+  # When a player's "level" score equals 10, apply this resource pack
+  - value: 10
+    url: "https://example.com/resourcepacks/advanced.zip"
+    # sha256 can be omitted entirely if not needed
+    
+  # When a player's "level" score equals 25, apply this resource pack
+  - value: 25
+    url: "https://example.com/resourcepacks/expert.zip"
+    sha256: "fedcba987654..."
+    
+  # When a player's "level" score equals 50, apply this resource pack
+  - value: 50
+    url: "https://example.com/resourcepacks/master.zip"
