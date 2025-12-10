@@ -16,25 +16,35 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: maven
         
     - name: Cache Maven packages
+      if: ${{ hashFiles('**/pom.xml') != '' }}
       uses: actions/cache@v4
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
         
+    - name: Cache Gradle packages
+      if: ${{ hashFiles('**/build.gradle') != '' }}
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle
+          .gradle
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle') }}
+        restore-keys: ${{ runner.os }}-gradle
+        
     - name: Build with Maven
-      if: hashFiles('**/pom.xml') != ''
+      if: ${{ hashFiles('**/pom.xml') != '' }}
       run: mvn -B package --file pom.xml
       
     - name: Set up Gradle (if Maven not found)
-      if: hashFiles('**/pom.xml') == '' && hashFiles('**/build.gradle') != ''
+      if: ${{ hashFiles('**/pom.xml') == '' && hashFiles('**/build.gradle') != '' }}
       uses: gradle/gradle-build-action@v2
       
     - name: Build with Gradle
-      if: hashFiles('**/pom.xml') == '' && hashFiles('**/build.gradle') != ''
+      if: ${{ hashFiles('**/pom.xml') == '' && hashFiles('**/build.gradle') != '' }}
       run: ./gradlew build
       
     - name: Get plugin version
