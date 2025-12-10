@@ -80,7 +80,7 @@ jobs:
         echo "Found JAR: $JAR_PATH"
         
     - name: Upload plugin artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ResourcePackPlugin-${{ steps.extract-version.outputs.version }}
         path: ${{ steps.find-jar.outputs.jar_path }}

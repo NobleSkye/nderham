@@ -19,7 +19,7 @@ jobs:
         cache: maven
         
     - name: Cache Maven packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -73,7 +73,7 @@ jobs:
         echo "Found JAR: $JAR_PATH"
         
     - name: Upload plugin artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ResourcePackPlugin-${{ steps.version.outputs.version }}
         path: ${{ steps.find-jar.outputs.jar_path }}
