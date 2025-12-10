@@ -1,12 +1,6 @@
-name: Build Plugin
+name: Build Plugin Artifact
 
 on:
-  push:
-    branches: [ main, copilot/add-datapack-resource-system ]
-  pull_request:
-    branches: [ main ]
-  release:
-    types: [ created ]
   workflow_dispatch:
 
 jobs:
@@ -84,31 +78,3 @@ jobs:
         name: ResourcePackPlugin-${{ steps.version.outputs.version }}
         path: ${{ steps.find-jar.outputs.jar_path }}
         if-no-files-found: error
-        
-    - name: Create Release
-      if: github.event_name == 'release'
-      uses: softprops/action-gh-release@v1
-      with:
-        files: ${{ steps.find-jar.outputs.jar_path }}
-        name: ResourcePackPlugin v${{ steps.version.outputs.version }}
-        body: |
-          # Resource Pack Plugin v${{ steps.version.outputs.version }}
-          
-          Minecraft plugin for scoreboard-based resource pack assignment.
-          
-          ## Installation
-          1. Download the JAR file
-          2. Place it in your server's `plugins/` folder
-          3. Restart the server
-          4. Configure in `plugins/ResourcePackPlugin/config.yml`
-          
-          ## Features
-          - `/resourcepack set <pack_name>` command
-          - `doAutoResourcepackReload` gamerule
-          - JSON configuration support
-          - SHA-256 verification
-          - Auto and manual modes
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

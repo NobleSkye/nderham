@@ -1,10 +1,10 @@
-name: Create Release
+name: Build and Release Plugin
 
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: 'Release version (e.g., 1.0.0)'
+      tag:
+        description: 'Release tag (e.g., v1.0.0 or 1.0.0)'
         required: true
         type: string
       prerelease:
@@ -28,16 +28,27 @@ jobs:
         distribution: 'temurin'
         cache: maven
         
+    - name: Extract version from tag
+      id: extract-version
+      run: |
+        TAG="${{ inputs.tag }}"
+        # Remove 'v' prefix if present
+        VERSION="${TAG#v}"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+        echo "Extracted version: $VERSION"
+        echo "Git tag will be: v$VERSION"
+        
     - name: Update version in pom.xml
       if: hashFiles('**/pom.xml') != ''
       run: |
-        mvn versions:set -DnewVersion=${{ inputs.version }}
+        mvn versions:set -DnewVersion=${{ steps.extract-version.outputs.version }}
         mvn versions:commit
         
     - name: Update version in build.gradle
       if: hashFiles('**/pom.xml') == '' && hashFiles('**/build.gradle') != ''
       run: |
-        sed -i "s/version = .*/version = '${{ inputs.version }}'/" build.gradle
+        sed -i "s/version = .*/version = '${{ steps.extract-version.outputs.version }}'/" build.gradle
         
     - name: Build with Maven
       if: hashFiles('**/pom.xml') != ''
@@ -68,21 +79,28 @@ jobs:
         echo "jar_name=$(basename $JAR_PATH)" >> $GITHUB_OUTPUT
         echo "Found JAR: $JAR_PATH"
         
+    - name: Upload plugin artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ResourcePackPlugin-${{ steps.extract-version.outputs.version }}
+        path: ${{ steps.find-jar.outputs.jar_path }}
+        if-no-files-found: error
+        
     - name: Create Git Tag
       run: |
         git config user.name "GitHub Actions Bot"
         git config user.email "actions@github.com"
-        git tag -a "v${{ inputs.version }}" -m "Release version ${{ inputs.version }}"
-        git push origin "v${{ inputs.version }}"
+        git tag -a "${{ steps.extract-version.outputs.tag }}" -m "Release version ${{ steps.extract-version.outputs.version }}"
+        git push origin "${{ steps.extract-version.outputs.tag }}"
         
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: v${{ inputs.version }}
-        name: ResourcePackPlugin v${{ inputs.version }}
+        tag_name: ${{ steps.extract-version.outputs.tag }}
+        name: ResourcePackPlugin v${{ steps.extract-version.outputs.version }}
         files: ${{ steps.find-jar.outputs.jar_path }}
         body: |
-          # Resource Pack Plugin v${{ inputs.version }}
+          # Resource Pack Plugin v${{ steps.extract-version.outputs.version }}
           
           Minecraft plugin for scoreboard-based resource pack assignment.
           

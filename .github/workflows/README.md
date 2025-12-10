@@ -4,11 +4,11 @@ This directory contains automated workflows for building and releasing the Resou
 
 ## Available Workflows
 
-### 1. Build Plugin (`build-plugin.yml`)
+### 1. Build Plugin Artifact (`build-plugin.yml`)
 
-**Trigger**: Automatic on push/PR to main branch, or manual via workflow_dispatch
+**Trigger**: Manual only via workflow_dispatch
 
-**Purpose**: Builds the plugin and creates artifacts for testing
+**Purpose**: Builds the plugin and creates a downloadable artifact for testing
 
 **What it does**:
 - Checks out the repository
@@ -16,7 +16,6 @@ This directory contains automated workflows for building and releasing the Resou
 - Detects and uses Maven or Gradle build system
 - Builds the plugin JAR
 - Uploads the JAR as a GitHub Actions artifact
-- On release events, automatically attaches the JAR to the release
 
 **Artifacts**: 
 - Name: `ResourcePackPlugin-<version>`
@@ -24,25 +23,23 @@ This directory contains automated workflows for building and releasing the Resou
 - Retention: 90 days (GitHub default)
 
 **How to use**:
-1. Push code to main branch or create a PR
-2. GitHub Actions will automatically build
-3. Download artifacts from the Actions tab
-
-**Manual trigger**:
 1. Go to Actions tab
-2. Select "Build Plugin" workflow
+2. Select "Build Plugin Artifact" workflow
 3. Click "Run workflow"
 4. Select branch and run
+5. Download artifact from the workflow run
 
-### 2. Create Release (`release-plugin.yml`)
+### 2. Build and Release Plugin (`release-plugin.yml`)
 
 **Trigger**: Manual via workflow_dispatch only
 
-**Purpose**: Creates a versioned release with the plugin JAR attached
+**Purpose**: Builds the plugin and creates both an artifact and a GitHub release
 
 **What it does**:
+- Extracts version from tag input (handles both `v1.0.0` and `1.0.0` formats)
 - Updates version number in pom.xml or build.gradle
 - Builds the plugin with the new version
+- Uploads plugin JAR as artifact (for immediate download)
 - Creates a Git tag (e.g., `v1.0.0`)
 - Creates a GitHub Release with:
   - Release notes
@@ -51,18 +48,19 @@ This directory contains automated workflows for building and releasing the Resou
   - Feature list
 
 **Inputs**:
-- `version` (required): Release version number (e.g., `1.0.0`)
+- `tag` (required): Release tag (e.g., `v1.0.0` or `1.0.0` - both formats work)
 - `prerelease` (optional): Mark as pre-release (default: false)
 
 **How to use**:
 1. Go to Actions tab
-2. Select "Create Release" workflow
+2. Select "Build and Release Plugin" workflow
 3. Click "Run workflow"
-4. Enter version number (e.g., `1.0.0`)
+4. Enter tag/version (e.g., `v1.0.0` or `1.0.0`)
 5. Optionally check "Mark as pre-release"
 6. Click "Run workflow"
 
 **Result**:
+- Uploads artifact: `ResourcePackPlugin-<version>`
 - Creates tag: `v<version>`
 - Creates release: `ResourcePackPlugin v<version>`
 - Attaches plugin JAR to release
@@ -186,17 +184,30 @@ To use these workflows with a plugin:
 4. Workflows will automatically build on push
 5. Use "Create Release" workflow for versioned releases
 
-## Example: Creating First Release
+## Example: Building an Artifact
 
 ```bash
 # 1. Ensure plugin code exists with build config
 # 2. Go to GitHub Actions tab
-# 3. Select "Create Release"
+# 3. Select "Build Plugin Artifact"
 # 4. Click "Run workflow"
-# 5. Enter version: 1.0.0
+# 5. Select branch
 # 6. Click "Run workflow" button
 # 7. Wait for completion
-# 8. Check Releases page for the new release
+# 8. Download artifact from the workflow run
+```
+
+## Example: Creating a Release
+
+```bash
+# 1. Ensure plugin code exists with build config
+# 2. Go to GitHub Actions tab
+# 3. Select "Build and Release Plugin"
+# 4. Click "Run workflow"
+# 5. Enter tag: v1.0.0 (or 1.0.0)
+# 6. Click "Run workflow" button
+# 7. Wait for completion
+# 8. Download artifact OR check Releases page for the new release
 ```
 
 ## Notes
